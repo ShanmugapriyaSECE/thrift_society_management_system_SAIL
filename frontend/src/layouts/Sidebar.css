@@ -1,5 +1,5 @@
 .sidebar {
-  width: 220px;
+  width: 260px;
   min-height: 100vh;
   background: #1e2a40;
   color: #fff;
@@ -27,7 +27,27 @@
   transition: background 0.2s;
 }
 
+.nav-section {
+  padding: 10px 20px 4px;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #5a7099;
+  margin-top: 8px;
+}
+
 .nav-link:hover, .nav-link.active {
   background: #2e3f5c;
   color: #fff;
+}
+
+.nav-link:hover, .nav-link.active {
+  background: #2e3f5c;
+  color: #fff;
+}
+
+.nav-link.disabled {
+  color: #3d5175;
+  cursor: not-allowed;
+  font-size: 0.9rem;
 }

@@ -6,8 +6,8 @@ import '../members/Members.css'
 export default function AddLoan() {
   const navigate = useNavigate()
   const [form, setForm] = useState({
-    employee_no: '', member_no: '', loan_amount: '',
-    installment_amount: '', total_installments: ''
+    empno: '', empname: '', desig: '', memno: '',
+    loan_amt: '', inst_amt: '', tot_nstalments: '', mnyr: ''
   })
   const [error, setError] = useState('')
 
@@ -22,11 +22,14 @@ export default function AddLoan() {
   }
 
   const fields = [
-    { key: 'employee_no', label: 'Employee No' },
-    { key: 'member_no', label: 'Member No' },
-    { key: 'loan_amount', label: 'Loan Amount' },
-    { key: 'installment_amount', label: 'Installment Amount' },
-    { key: 'total_installments', label: 'Total Installments' },
+    { key: 'empno', label: 'Employee No' },
+    { key: 'empname', label: 'Employee Name' },
+    { key: 'desig', label: 'Designation' },
+    { key: 'memno', label: 'Member No' },
+    { key: 'loan_amt', label: 'Loan Amount' },
+    { key: 'inst_amt', label: 'Installment Amount' },
+    { key: 'tot_nstalments', label: 'Total Installments' },
+    { key: 'mnyr', label: 'Month/Year (e.g. 0125)' },
   ]
 
   return (
@@ -39,7 +42,6 @@ export default function AddLoan() {
             <div className="form-group" key={f.key}>
               <label>{f.label}</label>
               <input
-                type={f.key.includes('amount') || f.key.includes('no') || f.key.includes('installments') ? 'number' : 'text'}
                 value={form[f.key]}
                 onChange={e => setForm({ ...form, [f.key]: e.target.value })}
                 required

@@ -1,78 +1,32 @@
 const db = require("../db");
 
-exports.getLoans = (req, res) => {
-    db.query("SELECT * FROM loans", (err, result) => {
-        if (err) {
-            return res.status(500).json(err);
-        }
-
-        res.json(result);
-    });
+exports.getLoans = async (req, res) => {
+  try {
+    const [rows] = await db.query("SELECT * FROM ects_loan_master");
+    res.json(rows);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 };
 
-exports.addLoan = (req, res) => {
-    const {
-        employee_no,
-        member_no,
-        loan_amount,
-        installment_amount,
-        total_installments
-    } = req.body;
+exports.addLoan = async (req, res) => {
+  try {
+    const { empno, empname, desig, memno, loan_amt, inst_amt, tot_nstalments, mnyr } = req.body;
 
     const days = 30;
+    const interest = parseFloat(loan_amt) * 0.11 * days / 365;
+    const tot_deduc = parseFloat(inst_amt) + interest;
+    const loan_balance = parseFloat(loan_amt) - parseFloat(inst_amt);
 
-    const interest =
-        loan_amount * 0.11 * days / 365;
-
-    const total_deduction =
-        Number(installment_amount) + Number(interest);
-
-    const loan_balance =
-        loan_amount - installment_amount;
-
-    const shares_allotted =
-        (loan_amount / 100000) * 5000;
-
-    const sql = `
-        INSERT INTO loans (
-            employee_no,
-            member_no,
-            loan_amount,
-            loan_date,
-            installment_amount,
-            total_installments,
-            current_installment,
-            interest,
-            total_deduction,
-            loan_balance,
-            shares_allotted
-        )
-        VALUES (?, ?, ?, CURDATE(), ?, ?, 1, ?, ?, ?, ?)
-    `;
-
-    db.query(
-        sql,
-        [
-            employee_no,
-            member_no,
-            loan_amount,
-            installment_amount,
-            total_installments,
-            interest,
-            total_deduction,
-            loan_balance,
-            shares_allotted
-        ],
-        (err, result) => {
-            if (err) {
-                return res.status(500).json(err);
-            }
-
-            res.json({
-                message: "Loan Added Successfully",
-                interest,
-                shares_allotted
-            });
-        }
+    const [result] = await db.query(
+      `INSERT INTO ects_loan_master
+        (empno, empname, desig, memno, date_of_loan, loan_amt, inst_amt, tot_nstalments, inst_no, interest, tot_deduc, loan_balance, mnyr)
+        VALUES (?, ?, ?, ?, CURDATE(), ?, ?, ?, 1, ?, ?, ?, ?)`,
+      [empno, empname, desig, memno, loan_amt, inst_amt, tot_nstalments, interest, tot_deduc, loan_balance, mnyr]
     );
+
+    res.status(201).json({ message: "Loan added successfully", interest, tot_deduc, loan_balance });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 };

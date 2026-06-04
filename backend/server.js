@@ -4,6 +4,7 @@ const cors = require("cors");
 const memberRoutes = require("./routes/memberRoutes");
 const loanRoutes = require("./routes/loanRoutes");
 const subscriptionRoutes = require("./routes/subscriptionRoutes");
+const tallyRoutes = require("./routes/tallyRoutes");
 
 const app = express();
 
@@ -15,6 +16,7 @@ app.get("/test", (req, res) => res.json({ message: "works" }));
 app.use("/api/members", memberRoutes);
 app.use("/api/loans", loanRoutes);
 app.use("/api/subscriptions", subscriptionRoutes);
+app.use("/api/tally", tallyRoutes);
 
 app.listen(5000, () => {
   console.log("Server running on port 5000");

@@ -16,12 +16,12 @@ export default function Dashboard() {
     getSubscriptions().then(r => setSubs(r.data)).catch(() => {})
   }, [])
 
-  const totalLoanAmt = loans.reduce((s, l) => s + Number(l.loan_amount || 0), 0)
+  const totalLoanAmt = loans.reduce((s, l) => s + Number(l.inst_no || 0), 0)
   const totalSubs = subs.reduce((s, m) => s + Number(m.cect_subs || 0), 0)
 
   const chartData = loans.slice(0, 6).map(l => ({
-    name: l.employee_no || l.empno,
-    amount: Number(l.loan_amount || l.loan_amt || 0)
+    name: l.empno,
+    amount: Number(l.inst_no || 0)
   }))
 
   return (

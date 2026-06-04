@@ -107,3 +107,13 @@ th { background: #f8f9fa; font-weight: 600; color: #1e2a40; }
   margin-bottom: 14px;
   font-size: 0.9rem;
 }
+
+.coming-soon {
+  background: #fff;
+  padding: 60px;
+  border-radius: 10px;
+  text-align: center;
+  font-size: 1.2rem;
+  color: #aaa;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}

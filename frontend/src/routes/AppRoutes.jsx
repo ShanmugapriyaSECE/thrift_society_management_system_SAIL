@@ -6,8 +6,12 @@ import AddMember from '../pages/members/AddMember'
 import EditMember from '../pages/members/EditMember'
 import LoanList from '../pages/loans/LoanList'
 import AddLoan from '../pages/loans/AddLoan'
+import SubscriptionList from '../pages/subscriptions/SubscriptionList'
+import AddSubscription from '../pages/subscriptions/AddSubscription'
 import LoanReport from '../pages/reports/LoanReport'
 import SubscriptionReport from '../pages/reports/SubscriptionReport'
+import TallyRegister from '../pages/reports/TallyRegister'
+import Administration from '../pages/administration/Administration'
 
 export default function AppRoutes() {
   return (
@@ -20,8 +24,12 @@ export default function AppRoutes() {
         <Route path="/members/edit/:emp" element={<EditMember />} />
         <Route path="/loans" element={<LoanList />} />
         <Route path="/loans/add" element={<AddLoan />} />
+        <Route path="/subscriptions" element={<SubscriptionList />} />
+        <Route path="/subscriptions/add" element={<AddSubscription />} />
         <Route path="/reports/loans" element={<LoanReport />} />
         <Route path="/reports/subscriptions" element={<SubscriptionReport />} />
+        <Route path="/reports/tally" element={<TallyRegister />} />
+        <Route path="/administration" element={<Administration />} />
       </Route>
     </Routes>
   )

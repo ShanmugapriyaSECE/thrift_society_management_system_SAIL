@@ -28,7 +28,7 @@ CREATE TABLE ects_loan_master (
     loan_amt DECIMAL(10,2),
     inst_no INT,
     inst_amt DECIMAL(10,2),
-    interestnumber DECIMAL(10,2),
+    interest DECIMAL(10,2),
     tot_deduc DECIMAL(10,2),
     loan_balance DECIMAL(10,2),
     tot_nstalments INT,

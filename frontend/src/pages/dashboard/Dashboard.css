@@ -12,18 +12,22 @@
 }
 
 .card {
-  padding: 20px;
-  border-radius: 10px;
+  padding: 24px 20px;
+  border-radius: 12px;
   color: #fff;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  transition: transform 0.2s;
 }
+
+.card:hover { transform: translateY(-3px); }
 
 .card p { font-size: 0.85rem; margin-bottom: 8px; }
 .card h3 { font-size: 1.6rem; }
 
-.blue { background: #1e2a40; }
-.green { background: #28a745; }
-.orange { background: #fd7e14; }
-.purple { background: #6f42c1; }
+.blue { background: linear-gradient(135deg, #0066cc, #004999); }
+.green { background: linear-gradient(135deg, #00b894, #007a63); }
+.orange { background: linear-gradient(135deg, #e67e22, #b95a0a); }
+.purple { background: linear-gradient(135deg, #8e44ad, #5e2d7a); }
 
 .chart-box {
   background: #fff;
