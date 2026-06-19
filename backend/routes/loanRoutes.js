@@ -4,11 +4,14 @@ const router = express.Router();
 
 const {
     getLoans,
-    addLoan
+    addLoan,
+    processMonthlyLoans
 } = require("../controllers/loanController");
 
 router.get("/", getLoans);
 
 router.post("/", addLoan);
+
+router.post("/process-monthly", processMonthlyLoans);
 
 module.exports = router;

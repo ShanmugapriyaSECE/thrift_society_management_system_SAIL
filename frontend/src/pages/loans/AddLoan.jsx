@@ -1,59 +1,112 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { addLoan } from '../../services/loanService'
-import '../members/Members.css'
+import './AddLoan.css'
 
 export default function AddLoan() {
-  const navigate = useNavigate()
   const [form, setForm] = useState({
-    empno: '', empname: '', desig: '', memno: '',
-    loan_amt: '', inst_amt: '', tot_nstalments: '', mnyr: ''
+    empno: '',
+    empname: '',
+    desig: '',
+    memno: '',
+    loan_amt: '',
+    inst_amt: '',
+    tot_nstalments: '',
+    mnyr: ''
   })
+  const [result, setResult] = useState(null)
   const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
 
-  const handleSubmit = async (e) => {
+  const handleChange = e => {
+    setForm({ ...form, [e.target.name]: e.target.value })
+    setResult(null)
+    setError('')
+  }
+
+  const handleSubmit = async e => {
     e.preventDefault()
+    setLoading(true)
+    setError('')
+    setResult(null)
     try {
-      await addLoan(form)
-      navigate('/loans')
+      const res = await addLoan(form)
+      setResult(res.data)
+      setForm({
+        empno: '', empname: '', desig: '', memno: '',
+        loan_amt: '', inst_amt: '', tot_nstalments: '', mnyr: ''
+      })
     } catch (err) {
-      setError(err.response?.data?.message || 'Error adding loan')
+      setError(err.response?.data?.message || 'Failed to add loan')
+    } finally {
+      setLoading(false)
     }
   }
 
-  const fields = [
-    { key: 'empno', label: 'Employee No' },
-    { key: 'empname', label: 'Employee Name' },
-    { key: 'desig', label: 'Designation' },
-    { key: 'memno', label: 'Member No' },
-    { key: 'loan_amt', label: 'Loan Amount' },
-    { key: 'inst_amt', label: 'Installment Amount' },
-    { key: 'tot_nstalments', label: 'Total Installments' },
-    { key: 'mnyr', label: 'Month/Year (e.g. 0125)' },
-  ]
-
   return (
-    <div>
+    <div className="form-page">
       <h2 className="page-title">Add Loan</h2>
-      <div className="form-box">
-        {error && <p className="error">{error}</p>}
-        <form onSubmit={handleSubmit}>
-          {fields.map(f => (
-            <div className="form-group" key={f.key}>
-              <label>{f.label}</label>
-              <input
-                value={form[f.key]}
-                onChange={e => setForm({ ...form, [f.key]: e.target.value })}
-                required
-              />
-            </div>
-          ))}
-          <div className="form-actions">
-            <button type="button" className="btn-secondary" onClick={() => navigate('/loans')}>Cancel</button>
-            <button type="submit" className="btn-primary">Add Loan</button>
+
+      <form className="styled-form" onSubmit={handleSubmit}>
+        <div className="form-row">
+          <div className="form-group">
+            <label>Employee No</label>
+            <input name="empno" value={form.empno} onChange={handleChange} required placeholder="e.g. EMP001" />
           </div>
-        </form>
-      </div>
+          <div className="form-group">
+            <label>Employee Name</label>
+            <input name="empname" value={form.empname} onChange={handleChange} required placeholder="Full name" />
+          </div>
+        </div>
+
+        <div className="form-row">
+          <div className="form-group">
+            <label>Designation</label>
+            <input name="desig" value={form.desig} onChange={handleChange} required placeholder="e.g. Engineer" />
+          </div>
+          <div className="form-group">
+            <label>Member No</label>
+            <input name="memno" value={form.memno} onChange={handleChange} required placeholder="e.g. MEM001" />
+          </div>
+        </div>
+
+        <div className="form-row">
+          <div className="form-group">
+            <label>Loan Amount (₹)</label>
+            <input type="number" name="loan_amt" value={form.loan_amt} onChange={handleChange} required min="1" placeholder="0.00" />
+          </div>
+          <div className="form-group">
+            <label>Instalment Amount (₹)</label>
+            <input type="number" name="inst_amt" value={form.inst_amt} onChange={handleChange} required min="1" placeholder="0.00" />
+          </div>
+        </div>
+
+        <div className="form-row">
+          <div className="form-group">
+            <label>Total Instalments</label>
+            <input type="number" name="tot_nstalments" value={form.tot_nstalments} onChange={handleChange} required min="1" placeholder="e.g. 12" />
+          </div>
+          <div className="form-group">
+            <label>Month/Year (MMYYYY)</label>
+            <input name="mnyr" value={form.mnyr} onChange={handleChange} required placeholder="e.g. 062026" maxLength={6} />
+          </div>
+        </div>
+
+        <button type="submit" className="btn-primary" disabled={loading}>
+          {loading ? 'Saving...' : 'Add Loan'}
+        </button>
+      </form>
+
+      {result && (
+        <div className="result-box success">
+          <p>✅ Loan added successfully!</p>
+        </div>
+      )}
+
+      {error && (
+        <div className="result-box error">
+          <p>❌ {error}</p>
+        </div>
+      )}
     </div>
   )
 }

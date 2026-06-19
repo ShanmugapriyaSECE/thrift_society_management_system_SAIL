@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { getLoans } from '../../services/loanService'
+import { getLoans, processMonthlyLoans } from '../../services/loanService'    
 import '../members/Members.css'
 
 export default function LoanList() {
@@ -10,13 +10,39 @@ export default function LoanList() {
   useEffect(() => {
     getLoans().then(r => setLoans(r.data)).catch(() => {})
   }, [])
+ 
+  const handleProcessLoans = async () => {
+  try {
+    const response = await processMonthlyLoans({
+      process_month: "072026"
+    });
 
+    alert(response.data.message);
+  } catch (error) {
+    alert(error.response?.data?.message || "Processing failed");
+  }
+};
   return (
     <div>
       <div className="page-header">
-        <h2 className="page-title">Loans</h2>
-        <button className="btn-primary" onClick={() => navigate('/loans/add')}>+ Add Loan</button>
-      </div>
+  <h2 className="page-title">Loans</h2>
+
+  <div style={{ display: 'flex', gap: '10px' }}>
+    <button
+      className="btn-primary"
+      onClick={() => navigate('/loans/add')}
+    >
+      + Add Loan
+    </button>
+
+    <button
+      className="btn-primary"
+      onClick={handleProcessLoans}
+    >
+      Process Monthly Loans
+    </button>
+  </div>
+</div>
       <div className="table-box">
         <table>
           <thead>
@@ -30,10 +56,10 @@ export default function LoanList() {
                 <td>{l.empno}</td>
                 <td>{l.empname}</td>
                 <td>{l.desig}</td>
-                <td>₹{Number(l.inst_no || 0).toLocaleString()}</td>
-                <td>₹{Number(l.interest || 0).toLocaleString()}</td>
-                <td>₹{Number(l.tot_deduc || 0).toFixed(2)}</td>
-                <td>₹{Number(l.loan_balance || 0).toLocaleString()}</td>
+                <td>₹{Number(l.loan_amt || 0).toLocaleString()}</td>
+                <td>₹{Number(l.emi_amount || 0).toLocaleString()}</td>
+                <td>₹{Number(l.interestnumber || 0).toFixed(2)}</td>
+                <td>₹{Number(l.current_balance || 0).toLocaleString()}</td>
                 <td>{l.mnyr || '-'}</td>
               </tr>
             ))}
