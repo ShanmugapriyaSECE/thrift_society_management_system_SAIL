@@ -12,6 +12,8 @@ const links = [
   { section: 'Subscriptions' },
   { to: '/subscriptions', label: '🔔 View Subscriptions' },
   { to: '/subscriptions/add', label: '➕ Add Subscription' },
+  { section: 'Shares' },
+  { to: '/shares', label: '📈 View Shares' },
   { section: 'Reports' },
   { to: '/reports/loans', label: '📄 Loan Report' },
   { to: '/reports/subscriptions', label: '📄 Subscription Report' },

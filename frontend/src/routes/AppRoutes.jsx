@@ -12,6 +12,9 @@ import LoanReport from '../pages/reports/LoanReport'
 import SubscriptionReport from '../pages/reports/SubscriptionReport'
 import TallyRegister from '../pages/reports/TallyRegister'
 import Administration from '../pages/administration/Administration'
+import ShareList from '../pages/shares/ShareList'
+import ShareDetails from '../pages/shares/ShareDetails'
+
 
 export default function AppRoutes() {
   return (
@@ -24,6 +27,8 @@ export default function AppRoutes() {
         <Route path="/members/edit/:emp" element={<EditMember />} />
         <Route path="/loans" element={<LoanList />} />
         <Route path="/loans/add" element={<AddLoan />} />
+        <Route path="/shares" element={<ShareList />} />
+        <Route path="/shares/:id" element={<ShareDetails />} />
         <Route path="/subscriptions" element={<SubscriptionList />} />
         <Route path="/subscriptions/add" element={<AddSubscription />} />
         <Route path="/reports/loans" element={<LoanReport />} />
